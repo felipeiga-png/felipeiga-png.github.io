@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produtora Audiovisual São Paulo | IGA Studio</title>
+<meta name="description" content="Produtora audiovisual São Paulo especializada em filmes publicitários, vídeos institucionais, documentários e moda.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@300;400;500;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f0f0f0;
+    --red: #ff2d2d;
+    --gray: #1a1a1a;
+    --mid: #333;
+    --dim: rgba(240,240,240,0.4);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--red);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+    mix-blend-mode: exclusion;
+  }
+  .cursor.big { width: 60px; height: 60px; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95) 0%, transparent 100%);
+  }
+
+  .logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .logo span {
+    color: var(--red);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--dim);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    z-index: 2;
+    border-right: 1px solid rgba(240,240,240,0.06);
+  }
+
+  .hero-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.5s forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 10vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: slideUp 0.8s ease 0.7s forwards;
+  }
+
+  .hero-name .accent { color: var(--red); display: block; }
+
+  .hero-desc {
+    font-size: 0.8rem;
+    line-height: 1.9;
+    color: var(--dim);
+    max-width: 300px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1s forwards;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.2s forwards;
+    transition: color 0.2s;
+  }
+
+  .hero-cta:hover { color: var(--red); }
+
+  .cta-arrow {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+    transition: width 0.3s;
+  }
+
+  .cta-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  .hero-cta:hover .cta-arrow { width: 60px; }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem 3rem;
+  }
+
+  .hero-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(240,240,240,0.06);
+    border: 1px solid rgba(240,240,240,0.06);
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.4s forwards;
+  }
+
+  .stat-box {
+    background: var(--black);
+    padding: 1.8rem;
+    transition: background 0.3s;
+  }
+
+  .stat-box:hover { background: var(--gray); }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-number .red { color: var(--red); }
+
+  .stat-desc {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .ticker {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    padding: 0.8rem 0;
+    border-top: 1px solid rgba(240,240,240,0.06);
+    background: var(--black);
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 3rem;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dim);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .ticker-item::after {
+    content: '●';
+    color: var(--red);
+    font-size: 0.4rem;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* DIAGONAL DIVIDER */
+  .divider {
+    height: 80px;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .divider::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -5%;
+    width: 110%;
+    height: 100%;
+    background: var(--gray);
+    clip-path: polygon(0 100%, 100% 40%, 100% 100%);
+  }
+
+  /* PORTFOLIO */
+  .portfolio-section {
+    background: var(--gray);
+    padding: 5rem 3rem 6rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(240,240,240,0.06);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-info { flex: 1; }
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .showcase-container {
+    border: 1px solid rgba(240,240,240,0.08);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .showcase-container::before {
+    content: 'IGA STUDIO';
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 10;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: rgba(240,240,240,0.3);
+    pointer-events: none;
+  }
+
+  .vimeo-wrap {
+    padding: 56.25% 0 0 0;
+    position: relative;
+  }
+
+  .vimeo-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ABOUT */
+  .about-section {
+    background: var(--black);
+    padding: 6rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    position: relative;
+  }
+
+  .about-left {
+    padding-right: 4rem;
+    border-right: 1px solid rgba(240,240,240,0.06);
+  }
+
+  .about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-title .red { color: var(--red); }
+
+  .about-text {
+    font-size: 0.85rem;
+    line-height: 1.9;
+    color: var(--dim);
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text strong { color: var(--white); font-weight: 500; }
+
+  .clients-row {
+    display: flex;
+    gap: 0;
+    margin-top: 3rem;
+    border: 1px solid rgba(240,240,240,0.08);
+  }
+
+  .client-tag {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border-right: 1px solid rgba(240,240,240,0.08);
+    transition: all 0.2s;
+  }
+
+  .client-tag:last-child { border-right: none; }
+  .client-tag:hover { background: var(--red); color: var(--white); }
+
+  .about-right {
+    padding-left: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .services-list { list-style: none; }
+
+  .service-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(240,240,240,0.06);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+    cursor: default;
+  }
+
+  .service-item:hover { color: var(--white); }
+
+  .service-item:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+  .service-arrow {
+    color: var(--red);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s;
+    font-size: 1rem;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--red);
+    padding: 6rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: 0.03em;
+    color: var(--black);
+  }
+
+  .contact-right { display: flex; flex-direction: column; gap: 2rem; }
+
+  .contact-item { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .contact-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(10,10,10,0.5);
+    font-weight: 500;
+  }
+
+  .contact-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .contact-value:hover { opacity: 0.6; }
+
+  .cta-black {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: var(--black);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background 0.2s;
+    width: fit-content;
+  }
+
+  .cta-black:hover { background: #1a1a1a; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(240,240,240,0.06);
+  }
+
+  .footer-brand {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,240,240,0.2);
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(240,240,240,0.15);
+  }
+
+  /* ANIMATIONS */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 7rem 1.5rem 4rem; }
+    .portfolio-section, .about-section, .contact-section { padding: 4rem 1.5rem; }
+    .about-section, .contact-section { grid-template-columns: 1fr; }
+    .about-left { padding-right: 0; border-right: none; padding-bottom: 3rem; }
+    .about-right { padding-left: 0; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <a href="#" class="logo">IGA<span>studio</span></a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Produtora Audiovisual · São Paulo</p>
+    <h1 class="hero-name">
+      FELIPE<br>
+      <span class="accent">IGARASHI</span>
+    </h1>
+    <p class="hero-desc">
+      Diretor, editor e produtor audiovisual com 22 anos de experiência. Filmes publicitários, documentários, vídeos institucionais e moda.
+    </p>
+    <a href="#portfolio" class="hero-cta">
+      <span class="cta-arrow"></span>
+      Ver portfólio
+    </a>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-content">
+      <div class="hero-stats-grid">
+        <div class="stat-box">
+          <span class="stat-number">22<span class="red">+</span></span>
+          <span class="stat-desc">Anos de experiência</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">46<span class="red">+</span></span>
+          <span class="stat-desc">Projetos realizados</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number"><span class="red">SP</span></span>
+          <span class="stat-desc">Grande São Paulo</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number"><span class="red">IA</span></span>
+          <span class="stat-desc">Produção com IA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Filmes Publicitários</span>
+      <span class="ticker-item">Volkswagen</span>
+      <span class="ticker-item">Vídeos Institucionais</span>
+      <span class="ticker-item">Samsung</span>
+      <span class="ticker-item">Documentários</span>
+      <span class="ticker-item">EY</span>
+      <span class="ticker-item">Moda & Lifestyle</span>
+      <span class="ticker-item">VWCO</span>
+      <span class="ticker-item">Pós-Produção</span>
+      <span class="ticker-item">Inteligência Artificial</span>
+      <span class="ticker-item">Filmes Publicitários</span>
+      <span class="ticker-item">Volkswagen</span>
+      <span class="ticker-item">Vídeos Institucionais</span>
+      <span class="ticker-item">Samsung</span>
+      <span class="ticker-item">Documentários</span>
+      <span class="ticker-item">EY</span>
+      <span class="ticker-item">Moda & Lifestyle</span>
+      <span class="ticker-item">VWCO</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="portfolio">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <div class="section-info">
+      <p class="section-tag">Trabalhos Selecionados</p>
+      <h2 class="section-title">PORTFÓLIO</h2>
+    </div>
+  </div>
+
+  <div class="showcase-container reveal">
+    <div class="vimeo-wrap">
+      <iframe
+        src="https://vimeo.com/showcase/12220864/embed"
+        allow="autoplay; fullscreen; picture-in-picture; gyroscope; accelerometer; clipboard-write; encrypted-media; web-share"
+        frameborder="0">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="sobre">
+  <div class="about-left reveal">
+    <div class="section-tag" style="margin-bottom:1.5rem;">
+      <span style="width:20px;height:1px;background:var(--red);display:inline-block;margin-right:0.8rem;"></span>
+      Sobre
+    </div>
+    <h2 class="about-title">FULL<br><span class="red">SERVICE</span><br>STUDIO</h2>
+    <p class="about-text">
+      Com <strong>22 anos de experiência</strong>, Felipe Igarashi conduz todos os aspectos da produção — da concepção criativa à finalização.
+    </p>
+    <p class="about-text">
+      Pioneiro na integração de <strong>inteligência artificial</strong> ao processo criativo audiovisual em São Paulo.
+    </p>
+    <div class="clients-row">
+      <div class="client-tag">VW</div>
+      <div class="client-tag">VWCO</div>
+      <div class="client-tag">EY</div>
+      <div class="client-tag">Samsung</div>
+    </div>
+  </div>
+
+  <div class="about-right reveal">
+    <div class="section-tag" style="margin-bottom:1.5rem;">
+      <span style="width:20px;height:1px;background:var(--red);display:inline-block;margin-right:0.8rem;"></span>
+      Serviços
+    </div>
+    <ul class="services-list">
+      <li class="service-item">Filmes Publicitários <span class="service-arrow">→</span></li>
+      <li class="service-item">Vídeos Institucionais <span class="service-arrow">→</span></li>
+      <li class="service-item">Documentários <span class="service-arrow">→</span></li>
+      <li class="service-item">Moda & Lifestyle <span class="service-arrow">→</span></li>
+      <li class="service-item">Direção de Arte <span class="service-arrow">→</span></li>
+      <li class="service-item">Pós-Produção & IA <span class="service-arrow">→</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contato">
+  <div class="reveal">
+    <h2 class="contact-big">VAMOS<br>CRIAR<br>JUNTOS</h2>
+  </div>
+  <div class="contact-right reveal">
+    <div class="contact-item">
+      <span class="contact-label">Telefone</span>
+      <a href="tel:+5511983088216" class="contact-value">+55 11 98308-8216</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">Email</span>
+      <a href="mailto:felipe@igastudio.com.br" class="contact-value">felipe@igastudio.com.br</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">Localização</span>
+      <span class="contact-value">São Paulo, Brasil</span>
+    </div>
+    <a href="mailto:felipe@igastudio.com.br" class="cta-black">Iniciar um projeto →</a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">IGA Studio</span>
+  <span class="footer-copy">© 2026 IGA Studio — Produtora Audiovisual São Paulo</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  document.querySelectorAll('a, button, .client-tag, .service-item, .stat-box').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
